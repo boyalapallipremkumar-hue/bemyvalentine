@@ -25,6 +25,10 @@
     box-shadow: 0 12px 35px rgba(0,0,0,0.2);
     width: 90%;
     max-width: 420px;
+    transition: box-shadow .3s ease;
+  }
+  .container.glow {
+    box-shadow: 0 0 0 0 rgba(255,47,122,.0), 0 0 30px 10px rgba(255,47,122,.35);
   }
 
   h1 {
@@ -84,75 +88,29 @@
     color: #d60067;
     font-weight: bold;
     display: none;
+    animation: pop .6s ease-out;
   }
-</style>
-</head>
-
-<body>
-
-<div class="container">
-  <h1>💘 Happy Valentine’s Day! 💘</h1>
-  <div id="names"></div>
-
-  <div class="question" id="questionText"></div>
-
-  <div class="buttons">
-    <button id="yes">Yes 😍</button>
-    <button id="no">No 🙈</button>
-  </div>
-
-  <div id="result">Yay! 💕 I knew you would say YES! 🎉💖</div>
-</div>
-
-<script>
-  // 🔴 HARDCODED NAMES (edit these if needed)
-  const name1 = "Prem";
-  const name2 = "My Wifey ❤️";
-
-  // Show both names
-  document.getElementById("names").innerText = name1 + " ❤️ " + name2;
-
-  // Highlighted question with only valentine name
-  const questionEl = document.getElementById("questionText");
-  questionEl.innerText = name2 + ", will you be my Valentine? 💞";
-
-  // No button escape + changing text
-  const noBtn = document.getElementById("no");
-  const noTexts = [
-    "No 🙈",
-    "Are you sure? 😢",
-    "Please? 🥺",
-    "Think again 😳",
-    "Don’t break my heart 💔",
-    "Pretty please? 🥹",
-    "Give me a chance 💖",
-    "Just say yes 😅"
-  ];
-  let noIndex = 0;
-
-  function moveNo() {
-    const x = Math.random() * (window.innerWidth - 140);
-    const y = Math.random() * (window.innerHeight - 80);
-    noBtn.style.position = "fixed";
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-
-    noIndex = (noIndex + 1) % noTexts.length;
-    noBtn.textContent = noTexts[noIndex];
+  @keyframes pop {
+    from { transform: scale(.9); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
   }
 
-  // Desktop + mobile support
-  noBtn.addEventListener("mouseenter", moveNo);
-  noBtn.addEventListener("click", moveNo);
+  /* Confetti */
+  .confetti {
+    position: fixed;
+    top: -10px;
+    width: 8px;
+    height: 14px;
+    opacity: .9;
+    animation: fall 3s linear forwards;
+    z-index: 999;
+  }
+  @keyframes fall {
+    to { transform: translateY(110vh) rotate(720deg); }
+  }
 
-  // Yes button
-  const yesBtn = document.getElementById("yes");
-  const result = document.getElementById("result");
-
-  yesBtn.addEventListener("click", function() {
-    result.style.display = "block";
-  });
-</script>
-
-</body>
-</html>
+  /* Floating hearts */
+  .heart {
+    position: fixed;
+    bottom: -40px;
+    font-siz
