@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Hello Wifey💘 Will You Be My Valentine?</title>
+<title>💘 Will You Be My Valentine?</title>
 
 <style>
   body {
@@ -107,18 +107,19 @@
 <script>
   // Read URL params: ?name=Prem&valentineName=Samhitha
   const params = new URLSearchParams(window.location.search);
-  const name1 = params.get("name") || "Someone";
-  const name2 = params.get("valentineName") || "You";
 
-  const decodedName1 = decodeURIComponent(name1);
-  const decodedName2 = decodeURIComponent(name2);
+  const name1Param = params.get("name");
+  const name2Param = params.get("valentineName");
+
+  const name1 = name1Param ? decodeURIComponent(name1Param) : "Me";
+  const name2 = name2Param ? decodeURIComponent(name2Param) : "My Wifey ❤️";
 
   // Show both names on top
-  document.getElementById("names").innerText = decodedName1 + " ❤️ " + decodedName2;
+  document.getElementById("names").innerText = name1 + " ❤️ " + name2;
 
   // Highlighted question with only valentine name
   const questionEl = document.getElementById("questionText");
-  questionEl.innerText = decodedName2 + ", will you be my Valentine? 💞";
+  questionEl.innerText = name2 + ", will you be my Valentine? 💞";
 
   // No button escape + changing text
   const noBtn = document.getElementById("no");
@@ -160,4 +161,3 @@
 
 </body>
 </html>
-
