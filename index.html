@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Valentine Link Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffe1e9;
+            color: #300018;
+            text-align: center;
+            padding: 40px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 8px;
+            border-radius: 6px;
+            border: 1px solid #900040;
+        }
+        button {
+            background: #d60067;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .output {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>💌 Valentine Link Generator</h1>
+
+<p>Enter names below and create a personalized Valentine link ✨</p>
+
+<input id="sender" type="text" placeholder="Your Name" />
+<br />
+<input id="recipient" type="text" placeholder="Your Valentine’s Name" />
+<br />
+
+<button onclick="generateLink()">Generate Link</button>
+
+<div class="output">
+    <p id="link"></p>
+    <button onclick="copyLink()">Copy Link</button>
+    <button onclick="copyMessage()">Copy Message</button>
+</div>
+
+<script>
+    function generateLink() {
+        const from = encodeURIComponent(document.getElementById('sender').value.trim());
+        const to = encodeURIComponent(document.getElementById('recipient').value.trim());
+
+        if (!from || !to) {
+            alert('Please fill both names 🙂');
+            return;
+        }
+
+        const url = `${location.origin}${location.pathname.replace("index.html","")}valentine.html?to=${to}&from=${from}`;
+        document.getElementById('link').innerText = url;
+    }
+
+    function copyLink() {
+        const text = document.getElementById('link').innerText;
+        if (!text) return alert('No link to copy!');
+        navigator.clipboard.writeText(text);
+        alert('Link copied! 💌');
+    }
+
+    function copyMessage() {
+        const from = document.getElementById('sender').value.trim();
+        const to = document.getElementById('recipient').value.trim();
+        const msg = `${from} ❤️ ${to} — Will you be my Valentine?`;
+        navigator.clipboard.writeText(msg);
+        alert('Message copied! 💖');
+    }
+</script>
+
+</body>
+</html>

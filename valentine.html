@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Valentine Surprise</title>
+    <style>
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: #ffccdc;
+            text-align: center;
+            padding: 60px;
+            color: #a60045;
+        }
+        h1 {
+            font-size: 42px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>💖 Happy Valentine’s Day! 💖</h1>
+<p id="names"></p>
+
+<script>
+    const params = new URLSearchParams(location.search);
+    const from = params.get('from') || 'Someone';
+    const to = params.get('to') || 'You';
+
+    document.getElementById('names').innerText = `${from} ❤️ ${to}`;
+</script>
+
+</body>
+</html>
