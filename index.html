@@ -1,172 +1,183 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
+<meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Valentine Link Generator 💖</title>
-<style>
-  * { box-sizing: border-box; }
+<title>💘 Will You Be My Valentine?</title>
 
+<style>
   body {
-    margin: 0; min-height: 100vh; display: grid; place-items: center;
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    color: #5b0028;
-    padding: 16px;
+    background: linear-gradient(135deg, #ffb6c1, #ffd1dc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
   }
 
-  .card {
+  .container {
     background: rgba(255,255,255,0.95);
-    padding: 22px;
-    border-radius: 18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    padding: 26px 22px 30px;
+    border-radius: 22px;
+    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+    width: 90%;
     max-width: 420px;
-    width: 100%;
-    text-align: center;
+    z-index: 2;
     animation: pop 0.5s ease-out;
   }
 
   @keyframes pop {
-    from { transform: scale(.95); opacity: 0; }
+    from { transform: scale(0.95); opacity: 0; }
     to { transform: scale(1); opacity: 1; }
   }
 
   h1 {
-    margin: 0 0 8px;
+    margin: 0 0 10px;
+    color: #d60067;
     font-size: 28px;
   }
 
-  p.subtitle {
-    margin: 0 0 16px;
-    font-size: 16px;
-    opacity: 0.9;
+  #names {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #900040;
+    font-weight: 700;
   }
 
-  input, textarea, button {
-    width: 100%;
-    font-size: 16px;
-    border-radius: 12px;
-    border: 1px solid #d48aa8;
-    margin: 8px 0;
+  .question {
+    font-size: 20px;
+    margin: 14px 0 18px;
   }
 
-  input, textarea {
-    padding: 14px 16px;
-    outline: none;
+  .buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
-  textarea {
-    min-height: 90px;
-    resize: vertical;
-  }
-
-  button {
-    padding: 14px 16px;
+  .buttons button {
+    padding: 14px 22px;
     border: none;
+    border-radius: 14px;
+    font-size: 18px;
     cursor: pointer;
-    font-weight: 600;
+    font-weight: 700;
+  }
+
+  #yes {
     background: #ff2f7a;
     color: #fff;
-    box-shadow: 0 6px 0 #c61e5f;
-    transition: transform .1s ease, box-shadow .1s ease, opacity .1s ease;
   }
 
-  button:active {
-    transform: translateY(3px);
-    box-shadow: 0 3px 0 #c61e5f;
+  #no {
+    background: #ddd;
+    color: #000;
+    position: relative;
   }
 
-  .output-field {
-    width: 100%;
-    padding: 12px 14px;
-    margin-top: 10px;
-    border-radius: 12px;
-    border: 1px dashed #ff9bbd;
-    background: #fff0f5;
-    font-size: 14px;
-    font-style: italic;           /* Inclined text */
-    color: #7a0035;
-    word-break: break-all;
+  .result {
+    margin-top: 16px;
+    font-size: 22px;
+    color: #d60067;
+    font-weight: 700;
+    display: none;
   }
 
-  .row {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+  /* Floating hearts */
+  .heart {
+    position: absolute;
+    bottom: -40px;
+    font-size: 20px;
+    opacity: 0.8;
+    animation: float 8s linear infinite;
+    pointer-events: none;
   }
 
-  .row button {
-    flex: 1;
-  }
-
-  .footer {
-    opacity: .7;
-    font-size: 13px;
-    margin-top: 10px;
+  @keyframes float {
+    0% { transform: translateY(0) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    100% { transform: translateY(-110vh) translateX(40px); opacity: 0; }
   }
 </style>
 </head>
+
 <body>
 
-<div class="card">
-  <h1>💌 Valentine Link Generator</h1>
-  <p class="subtitle">Create a cute, shareable Valentine page</p>
+<div class="container">
+  <h1>💘 Happy Valentine’s Day! 💘</h1>
+  <div id="names"></div>
 
-  <input id="from" placeholder="Your name" />
-  <input id="to" placeholder="Your Valentine’s name" />
-  <textarea id="message" placeholder="Custom message (optional)">Will you be my Valentine? 💖</textarea>
+  <div class="question">Will you be my Valentine? 💞</div>
 
-  <button onclick="generate()">Generate Link</button>
-
-  <!-- Separate output field -->
-  <div id="out" class="output-field">Your generated link will appear here…</div>
-
-  <div class="row">
-    <button onclick="copyLink()">Copy Link</button>
-    <button onclick="copyMessage()">Copy Message</button>
+  <div class="buttons">
+    <button id="yes">Yes 😍</button>
+    <button id="no">No 🙈</button>
   </div>
 
-  <div class="footer">Share the link and make their day special ✨</div>
+  <div id="result" class="result">Yay! 💕 I knew you would say YES! 🎉💖</div>
 </div>
 
 <script>
-function basePath() {
-  const p = location.pathname;
-  return p.endsWith("index.html") ? p.replace("index.html","") : p.endsWith("/") ? p : p + "/";
-}
+  // Read URL params: ?name=Prem&valentineName=Samhitha
+  const params = new URLSearchParams(location.search);
+  const name1 = decodeURIComponent(params.get("name") || "Someone");
+  const name2 = decodeURIComponent(params.get("valentineName") || "You");
 
-function generate() {
-  const from = encodeURIComponent(document.getElementById("from").value.trim());
-  const to = encodeURIComponent(document.getElementById("to").value.trim());
-  const msg = encodeURIComponent(document.getElementById("message").value.trim());
+  document.getElementById("names").innerText = `${name1} ❤️ ${name2}`;
 
-  if (!from || !to) { 
-    alert("Please fill both names 🙂"); 
-    return; 
+  // Floating hearts
+  function spawnHeart() {
+    const h = document.createElement("div");
+    h.className = "heart";
+    h.textContent = ["💖","💘","💝","💗","💓"][Math.floor(Math.random() * 5)];
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = (6 + Math.random() * 6) + "s";
+    h.style.fontSize = (16 + Math.random() * 24) + "px";
+    document.body.appendChild(h);
+    setTimeout(() => h.remove(), 12000);
+  }
+  setInterval(spawnHeart, 500);
+
+  // No button: escape + changing text
+  const noBtn = document.getElementById("no");
+  const noTexts = [
+    "No 🙈",
+    "Are you sure? 😢",
+    "Please? 🥺",
+    "Think again 😳",
+    "Don’t break my heart 💔",
+    "Pretty please? 🥹",
+    "Give me a chance 💖",
+    "Just say yes 😅"
+  ];
+  let noIndex = 0;
+
+  function moveNoButton() {
+    const x = Math.random() * (window.innerWidth - 140);
+    const y = Math.random() * (window.innerHeight - 80);
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+
+    noIndex = (noIndex + 1) % noTexts.length;
+    noBtn.textContent = noTexts[noIndex];
   }
 
-  const url = `${location.origin}${basePath()}valentine.html?name=${from}&valentineName=${to}&msg=${msg}`;
-  document.getElementById("out").innerText = url;
-}
+  // Works on desktop (hover) and mobile (touch)
+  noBtn.addEventListener("mouseenter", moveNoButton);
+  noBtn.addEventListener("touchstart", moveNoButton);
 
-function copyLink() {
-  const t = document.getElementById("out").innerText;
-  if (!t || t.startsWith("Your generated")) {
-    alert("Generate the link first!");
-    return;
-  }
-  navigator.clipboard.writeText(t);
-  alert("Link copied 💌");
-}
+  // Yes button: show result
+  const yesBtn = document.getElementById("yes");
+  const result = document.getElementById("result");
 
-function copyMessage() {
-  const from = document.getElementById("from").value.trim();
-  const to = document.getElementById("to").value.trim();
-  const msg = document.getElementById("message").value.trim();
-  const text = `${from} ❤️ ${to}\n${msg}`;
-  navigator.clipboard.writeText(text);
-  alert("Message copied 💖");
-}
+  yesBtn.addEventListener("click", () => {
+    result.style.display = "block";
+  });
 </script>
 
 </body>
